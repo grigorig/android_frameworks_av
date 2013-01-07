@@ -96,9 +96,15 @@ bool DataSource::sniff(
          it != gSniffers.end(); ++it) {
 
 #ifdef QCOM_HARDWARE
+#ifdef QCOM_LEGACY_OMX
+        // Does'n try to use ExtendedExtractor if already found suitable from defaults
+        if(it == extendedSnifferPosition && *confidence > 0.0)
+            return true;
+#else
         //Dont call the first sniffer from extended extarctor
         if(it == extendedSnifferPosition)
             continue;
+#endif
 #endif
 
         String8 newMimeType;
